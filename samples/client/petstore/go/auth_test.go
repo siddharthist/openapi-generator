@@ -37,8 +37,13 @@ func TestOAuth2(t *testing.T) {
 	tokenSource := cfg.TokenSource(createContext(nil), &tok)
 	auth := context.WithValue(context.Background(), sw.ContextOAuth2, tokenSource)
 
-	newPet := (sw.Pet{Id: 12992, Name: "gopher",
-		PhotoUrls: []string{"http://1.com", "http://2.com"}, Status: "pending", Tags: []sw.Tag{sw.Tag{Id: 1, Name: "tag2"}}})
+	id := int64(12992)
+	status := "pending"
+	tagId := int64(1)
+	tagName := "tag2"
+	tags := []sw.Tag{sw.Tag{Id: &tagId, Name: &tagName}}
+	newPet := (sw.Pet{Id: &id, Name: "gopher",
+		PhotoUrls: []string{"http://1.com", "http://2.com"}, Status: &status, Tags: &tags})
 
 	r, err := client.PetApi.AddPet(context.Background(), newPet)
 
